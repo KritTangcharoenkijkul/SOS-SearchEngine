@@ -9,28 +9,29 @@ PUT: update new resource
 from flask import Flask, request
 from flask_restful import Resource, Api
 
+import csv
+import json
+
+    
 app = Flask(__name__)
 api = Api(app)
 
 class Home(Resource):
     def get(self):
-        return {'about':'Home'}
+        f = open('CommonFrame.json',)
+        data = json.load(f)
+        return {'All Reviews': data}
 
     def post(self):
         some_json = request.get_json()
         return {'you sent':some_json}, 201
 
-class ReviewByuser(Resource):
-    def get(self):
-        return {'about':'review by user'}
-
-    def post(self):
-        some_json = request.get_json()
-        return {'you sent':some_json}, 201
 
 class Reviews(Resource):
     def get(self):
-        return {'about':'average review for each item'}
+        f = open('ReviewFrame.json',)
+        data = json.load(f)
+        return {'Reviews': data}
 
     def post(self):
         some_json = request.get_json()
@@ -38,14 +39,15 @@ class Reviews(Resource):
 
 class WishList(Resource):
     def get(self, name):
-        return {'result': name}
+        f = open('WishlistFrame.json',)
+        data = json.load(f)
+        return {'Wishlist': data}
 
     def post(self):
         some_json = request.get_json()
         return {'you sent':some_json}, 201
 
 api.add_resource(Home, '/')
-api.add_resource(ReviewByuser, '/review-by-user')
 api.add_resource(Reviews, '/reviews')
 api.add_resource(WishList, '/wishlist/<int:name>')
 

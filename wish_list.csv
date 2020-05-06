@@ -10,3 +10,4 @@ age,sex,bmi,children,smoker,region,expenses,product_id,vote,num_votes
 37,male,30.8,0,no,southwest,4646.76,113,5.0,2
 55,female,29.7,2,no,southwest,11881.36,112,0.0,0
 38,male,19.3,0,yes,southwest,15820.7,100,0.0,0
+31,male,36.3,2,yes,southwest,38711.0,30,0.0,0
