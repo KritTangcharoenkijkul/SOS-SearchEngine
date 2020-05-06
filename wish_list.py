@@ -1,23 +1,27 @@
 import numpy as np
 import pandas as pd
-
+import json
 class WishList():
     def __init__(self):
-        self.insurance = pd.read_csv("insurance.csv") #example data
-        self.insurance['product_id'] = self.insurance['product_id'].astype(str)
-        self.wishList = pd.read_csv("wish_list.csv") #last my wish lish
+        self.common = json.load("CommonFrame.json") #example data
+        self.wishlist = json.load("WishlistFrame.json") #example data
 
-    def add(self):
-        name = str(input('Enter product name:'))
-        row = self.insurance.loc[self.insurance['product_id'] == name]
+
+    def add(self, id, name):
+
+        row = self.common.loc[self.common['product_id'] == id]
+
         if row.empty:
-            print('Can not find this product')
+            print('Cannot find this product')
             return
-        check = self.wishList.isin({'product_id': [name]})
+        check = self.wishlist.isin({'product_id': [id]})
+
         if check['product_id'].any(axis=None) == False:
-            self.wishList = self.wishList.append(row)
+            temp = pd.DataFrame([[id, name]], columns=['product_id','product_name'])
+            self.wishlist = self.wishlist.append(temp, ignore_index=True)
         else:
             print('already add')
+
 
     def dispaly(self):
         print(self.wishList)
@@ -27,10 +31,5 @@ class WishList():
         self.wishList = self.wishList[self.wishList.names != name]
 
     def save(self):
-        self.wishList.to_csv('wish_list.csv',index = False)
-        self.insurance.to_csv('insurance.csv',index = False)
-
-w = WishList()
-w.add()
-w.save()
-w.dispaly()
+        self.wishlist.to_json('WishlistFrame.json')
+        self.common.to_json('CommonFrame.json')

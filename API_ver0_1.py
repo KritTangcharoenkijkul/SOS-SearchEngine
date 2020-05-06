@@ -8,10 +8,10 @@ PUT: update new resource
 '''
 from flask import Flask, request
 from flask_restful import Resource, Api
+#from wish_list import WishList
 
 import csv
 import json
-
     
 app = Flask(__name__)
 api = Api(app)
@@ -41,9 +41,20 @@ class WishList(Resource):
     def get(self, name):
         f = open('WishlistFrame.json',)
         data = json.load(f)
+        self.name = name
         return {'Wishlist': data}
 
     def post(self):
+        #wish = WishList()
+        #wish.add(self.name, self.id)
+
+        #return request.post(_url('/tasks/'), json={
+        #    'product_id': product_id,
+        #    'product_name': product_name,
+        #})
+
+
+
         some_json = request.get_json()
         return {'you sent':some_json}, 201
 
